@@ -18,14 +18,15 @@ namespace EmployeeManagement
             InitializeComponent();
         }
 
+        //建立資料庫連線物件 con
         //點選Employeedb後會出現屬性，找到連接字串的欄位，複製連接字串。"@Data Source=SqlConnection" 有特殊符號才用@
         SqlConnection con = new SqlConnection("Data Source=DESKTOP-P6CBMS9;Initial Catalog=Employeedb;Integrated Security=True");
 
         //方法 : 資料繫結
-        //使用ADO.NET來連接SQL Sever執行查詢並將數據顯示在 WinForms 中的 DataGridView 控制項上
+        //使用ADO.NET來連接SQL Sever執行查詢並將數據顯示在 DataGridView 控制項上
         void BindData()
         {
-            //建立了 SqlCommand 物件 cnn   (資料庫查詢語法 , 資料庫連線物件)
+            //建立 SqlCommand 物件 cnn   (資料庫查詢語法 , 資料庫連線物件)
             SqlCommand cnn = new SqlCommand("Select * from emptab", con);
 
             //SqlDataAdapter 是用來連接資料庫和 DataTable 之間的連接器。SqlCommand物件 cnn 作為參數傳入，來執行查詢並接收返回的數據。
@@ -82,6 +83,23 @@ namespace EmployeeManagement
             txtbox薪資.Text = "";
             txtbox生日.Text = "";
             txtbox福利.Text = "";
+        }
+
+        private void btn刪除_Click(object sender, EventArgs e)
+        {
+            con.Open();
+
+            SqlCommand cnn = new SqlCommand("Delete emptab where id=@id", con);
+
+            cnn.Parameters.AddWithValue("@Id", int.Parse(txtboxID.Text));
+            
+            cnn.ExecuteNonQuery();
+
+            con.Close();
+
+            MessageBox.Show("確定要刪除此筆資料嗎?");
+
+            BindData();
         }
     }
 }

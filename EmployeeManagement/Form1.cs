@@ -33,5 +33,10 @@ namespace EmployeeManagement
             EmployeeInfo employeeInfo = new EmployeeInfo();
             employeeInfo.Show();
         }
+
+        private void btn離開_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
