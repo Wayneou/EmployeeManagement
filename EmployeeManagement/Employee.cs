@@ -52,10 +52,13 @@ namespace EmployeeManagement
 
         private void btn加入_Click(object sender, EventArgs e)
         {
+            //開啟資料庫連接
             con.Open();
 
+            //SqlCommand 物件，用於執行 SQL 插入語句。這個語句將新的員工資料插入到 emptab 表格。使用參數化查詢 (@id, @employeename, 等) 來防止 SQL 注入攻擊，並提高代碼的安全性。
             SqlCommand cnn = new SqlCommand("Insert into emptab(id,employeename,age,email,salary,dob,benefit) values(@id,@employeename,@age,@email,@salary,@dob,@benefit)",con);
 
+            //AddWithValue 方法調用都將文本框中的值轉換為適當的數據類型並將其添加到 SQL 查詢的對應參數中。
             cnn.Parameters.AddWithValue("@Id", int.Parse(txtboxID.Text));
             cnn.Parameters.AddWithValue("@EmployeeName", txtbox姓名.Text);
             cnn.Parameters.AddWithValue("@Age", int.Parse(txtbox年齡.Text));
@@ -64,10 +67,13 @@ namespace EmployeeManagement
             cnn.Parameters.AddWithValue("@Dob", DateTime.Parse(txtbox生日.Text));
             cnn.Parameters.AddWithValue("@Benefit", txtbox福利.Text);
 
+            //ExecuteNonQuery 方法用於執行 SQL 語句（如插入、更新或刪除），這裡用來將資料插入資料庫。
             cnn.ExecuteNonQuery();
 
+            //關閉資料庫連接
             con.Close();
 
+            //更新DataGridView，用來從數據庫讀取數據並綁定到 DataGridView。
             BindData();
 
             //到Program.cs先測試Employee
@@ -91,14 +97,19 @@ namespace EmployeeManagement
 
             SqlCommand cnn = new SqlCommand("Delete emptab where id=@id", con);
 
+            //輸入ID來刪除資料
             cnn.Parameters.AddWithValue("@Id", int.Parse(txtboxID.Text));
-            
+
+            //ExecuteNonQuery 方法用於執行 SQL 語句（如插入、更新或刪除），這裡用來刪除資料庫中的資料。
             cnn.ExecuteNonQuery();
 
             con.Close();
 
-            MessageBox.Show("確定要刪除此筆資料嗎?");
+            //MessageBox.Show 方法來顯示一個彈出對話框，這是在進行數據刪除等敏感操作前，來確保使用者有意識到他們的操作可能帶來的後果。
+            //MessageBox.Show("確定要刪除此筆資料嗎?");
+            MessageBox.Show("確定要刪除此筆資料嗎?","刪除確認",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
 
+            //更新DataGridView，用來從數據庫讀取數據並綁定到 DataGridView。
             BindData();
         }
     }

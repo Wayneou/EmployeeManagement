@@ -36,6 +36,7 @@ namespace EmployeeManagement
 
         private void btn離開_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("確定要離開嗎?", "確認離開", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             this.Close();
         }
     }
